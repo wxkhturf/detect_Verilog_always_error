@@ -142,8 +142,8 @@ sub detect_always_error{
                 $line = $new_lines[$cnt];
                 if($is_clk == 1){
                     #如果检测到阻塞赋值，说明有error
-                    #下面的正则是不检测 <= 和 ==,只检测=
-                    $error_detect = 1 if($line =~ /(?<![<==])=(?!=)/);
+                    #要匹配单独的等号 =，而排除 <=、==、!=、>=、=~、^=、===、!==
+                    $error_detect = 1 if($line =~ /^(?!=)(?<!<=)(?<!==)(?<!!=)(?<!>=)(?!=~)(?<!\^=)(?<!===)(?<!!==)=/);
                 } else {
                     #如果检测到非阻塞赋值，说明有error
                     $error_detect = 1 if($line =~ /<=/);
